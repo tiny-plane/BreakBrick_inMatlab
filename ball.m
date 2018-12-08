@@ -1,5 +1,11 @@
-classdef ball < block & handle
+classdef ball <  handle
     properties
+        kind = 1;
+        loc = [100,100];
+        hit = 0;
+        life = 1;
+        render = 0;
+        length = [30,10];
         direction = pi/2;
         velocity = 2;
         ini = 0;
@@ -7,7 +13,7 @@ classdef ball < block & handle
     end
     methods
         function obj = ball()
-            obj.kind = 5;
+            obj.kind = 10;
         end
     end
     methods (Static)

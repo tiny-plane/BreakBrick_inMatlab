@@ -5,7 +5,7 @@ classdef block
         hit = 0;
         life = 1;
         render = 0;
-        length = [10,30];
+        length = [30,10];
     end
     methods
         function obj = block()

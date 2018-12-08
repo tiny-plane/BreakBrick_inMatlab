@@ -6,7 +6,7 @@ classdef constant < handle
         ballradius = [];
         end
     methods
-        function obj = map(plate,ball)
+        function obj = constant(plate,ball)
             temp = block();
             obj.bricklength = temp.length;
             obj.platelength = plate.length;

@@ -5,6 +5,7 @@ classdef brick < block
     methods
         function obj = brick(loc)
             obj.loc = loc;
+            obj.color = randperm(4,1);
         end
     end
 end
