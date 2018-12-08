@@ -38,13 +38,14 @@ classdef process < handle
                         disp('oh shit!we are going to next round')
                         break
                     end
-                    if o.timecount >= 100
+                    if o.timecount >= 10000
                         disp('...never play again  OK?')
                         break
                     end
-                    o.movestep;
-                    o.collisiondetection;
-                    o.timecount = o.timecount +1;
+                    o.movestep(o);
+                    o.collisiondetection(o);
+                    o.timecount = o.timecount + 1;
+                    pause(o.constant.framestime)
                 end
                 %       % testdelete
                 %       o.deletebrick(o,2)
@@ -53,6 +54,7 @@ classdef process < handle
         function inidraw(o)
             cla
             o.hblock = [];
+            axis equal
             axis([0,o.constant.length(1),0,o.constant.length(2)])
             axis manual
             hold on
@@ -83,7 +85,7 @@ classdef process < handle
                 case 5%plate
                     o.hblock = [o.hblock,rectangle('Position',[o.blockList{i}.loc,o.constant.platelength],'FaceColor',[.5 .5 0])];
                 case 10%ball
-                    o.hball = plot(o.blockList{i}.loc(1),o.blockList{i}.loc(2),'.','Markersize',20);
+                    o.hball = plot(o.blockList{i}.loc(1),o.blockList{i}.loc(2),'.','Markersize',40);
                 otherwise
                     disp('innerERROR')
             end
@@ -91,9 +93,35 @@ classdef process < handle
             
         end
         function movestep(o)
-            
+            % x = get(o.hball,'xdata');
+            % y =  get(o.hball,'ydata');
+            %disp([x,y])
+            o.blockList{end}.move(o.blockList{end})
+            set(o.hball,'xdata',o.blockList{end}.loc(1),'ydata',o.blockList{end}.loc(2));
+            % drawnow
         end
         function collisiondetection(o)
+            %wall
+            loc = o.blockList{end}.loc;
+            if loc(1) <= o.constant.bl
+                % o.bloclList{end}.direction = o.bloclList{end}.direction-pi/2;
+                o.blockList{end}.velocity(1) = -o.blockList{end}.velocity(1);
+                return
+            end
+            if loc(1) >= o.constant.br
+                o.blockList{end}.velocity(1) = -o.blockList{end}.velocity(1);
+                return
+            end
+            if loc(2) >= o.constant.bu
+                o.blockList{end}.velocity(2) = -o.blockList{end}.velocity(2);
+                return
+            end
+            if loc(2) <= o.constant.bb
+                o.blockList{end}.velocity(2) = -o.blockList{end}.velocity(2);
+                return
+            end
+            %brick
+            
         end
         function iniLoc(o)
             for i = 1:o.blocknum

@@ -6,14 +6,15 @@ classdef ball <  handle
         life = 1;
         render = 0;
         length = [30,10];
-        direction = pi/2;
-        velocity = 2;
+        inidirection = pi/4;
+        velocity = []; %per frame
         ini = 0;
         radius = 5;
     end
     methods
         function obj = ball()
             obj.kind = 10;
+            obj.velocity = 5*[cos(obj.inidirection),sin(obj.inidirection)];
         end
     end
     methods (Static)
@@ -21,9 +22,7 @@ classdef ball <  handle
             
         end
         function move(ball)
-            if ini == 1
-                ball.loc = ball.loc + ball.velocity.*[cos(ball.direction),sin(ball.direction)];
-            end
+                ball.loc = ball.loc + ball.velocity;
         end
         function Hitjudge(ball,brickList,map)
             
