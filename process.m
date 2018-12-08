@@ -121,7 +121,20 @@ classdef process < handle
                 return
             end
             %brick
-            
+            l1 = o.constant.bricklength(1);
+            r = o.constant.ballradius;
+            for i = 1 : o.blocknum-2
+                temp = (loc-o.blockList{i}.loc);
+                if temp * temp'<= o.constant.safedis
+                    loc2 = o.blockList{i}.loc;
+                    if loc(1) >= loc2(1)-r && loc(1) <= loc2(1) + l1 && loc(2) >= loc2(2)
+                        %disp('!')
+                       % if loc(1) >= loc2(1)
+                        o.deletebrick(o,i);
+                        return
+                    end
+                end
+            end
         end
         function iniLoc(o)
             for i = 1:o.blocknum
@@ -139,16 +152,22 @@ classdef process < handle
         end
         function deletebrick(o,dnum)
             set(o.hblock(dnum),'Visible','off')
-            o.blockList{dnum} = [];
+            o.blockList(dnum) = [];
             o.brickLocList(dnum,:) = [];
             o.hblock(dnum) = [];
             o.blocknum = o.blocknum - 1;
-            drawnow
+            %drawnow
         end
         function loadmap(o)
             disp(o.round)
             for i = 1:4
                 o.blockList = [o.blockList,{brick([32*i,300])}];
+            end
+            for i = 1:4
+                o.blockList = [o.blockList,{brick([32*i,250])}];
+            end
+            for i = 1:4
+                o.blockList = [o.blockList,{brick([32*i,200])}];
             end
             o.blockList = [o.blockList,{o.plate},{o.ball}];
             o.blocknum = size(o.blockList,2);

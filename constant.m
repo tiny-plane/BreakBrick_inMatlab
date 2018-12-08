@@ -9,6 +9,7 @@ classdef constant < handle
         br;
         bu;
         bb;
+        safedis;
         end
     methods
         function obj = constant(plate,ball)
@@ -20,6 +21,7 @@ classdef constant < handle
             obj.bb = obj.ballradius;
             obj.br = obj.length(1) - obj.ballradius;
             obj.bu = obj.length(2) - obj.ballradius;
+            obj.safedis = (obj.bricklength(1)+obj.ballradius)*(obj.bricklength(1)+obj.ballradius);
         end
     end
 end
